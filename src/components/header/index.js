@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import {
 	HeaderContainer,
 	ContainerActions,
@@ -6,22 +6,22 @@ import {
 	ContainerCenter,
 	ButtonBadge,
 	NotificationContainer,
-} from "./styles";
+} from './styles';
 
-import { Link, useNavigate } from "react-router-dom";
-import Sidebar from "./sidebar";
-import * as FaIcons from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+import Sidebar from './sidebar';
+import * as FaIcons from 'react-icons/fa';
 
-import { BiUser } from "react-icons/bi";
-import SlideDownMenu from "./slide-down-menu";
-import LocalContext from "../../pages/user-location/Context";
-import { fetchCityForID } from "../../services/IBGE";
-import { IoIosNotificationsOutline, IoIosFolder } from "react-icons/io";
-import { api } from "../../services/api";
-import { Context } from "../../context/Auth/AuthContext";
+import { BiUser } from 'react-icons/bi';
+import SlideDownMenu from './slide-down-menu';
+import LocalContext from '../../pages/user-location/Context';
+import { fetchCityForID } from '../../services/IBGE';
+import { IoIosNotificationsOutline, IoIosFolder } from 'react-icons/io';
+import { api } from '../../services/api';
+import { Context } from '../../context/Auth/AuthContext';
 
 const Header = () => {
-	const [windowDimenion, detectHW] = useState({
+	const [windowDimension, detectHW] = useState({
 		winWidth: window.innerWidth,
 		winHeight: window.innerHeight,
 	});
@@ -33,16 +33,16 @@ const Header = () => {
 		});
 	};
 	useEffect(() => {
-		window.addEventListener("resize", detectSize);
+		window.addEventListener('resize', detectSize);
 
 		if (window.innerWidth >= 958) {
 			setSidebar(false);
 		}
 
 		return () => {
-			window.removeEventListener("resize", detectSize);
+			window.removeEventListener('resize', detectSize);
 		};
-	}, [windowDimenion]);
+	}, [windowDimension]);
 
 	const [sidebar, setSidebar] = useState(false);
 	const { user } = useContext(Context);
@@ -53,17 +53,15 @@ const Header = () => {
 	};
 
 	const [formValues, setFormValues] = useContext(LocalContext);
-	const [cityName, setCityName] = useState("");
+	const [cityName, setCityName] = useState('');
 
 	fetchCityForID(formValues.city).then((city) => {
 		setCityName(city);
 	});
 
 	useEffect(() => {
-		if (JSON.parse(localStorage.getItem("locationLocalStorage")) !== null) {
-			const data = JSON.parse(
-				localStorage.getItem("locationLocalStorage")
-			);
+		if (JSON.parse(localStorage.getItem('locationLocalStorage')) !== null) {
+			const data = JSON.parse(localStorage.getItem('locationLocalStorage'));
 
 			if (data.city !== undefined && data.state !== undefined) {
 				setFormValues({
@@ -80,10 +78,7 @@ const Header = () => {
 	}, []);
 
 	useEffect(() => {
-		localStorage.setItem(
-			"locationLocalStorage",
-			JSON.stringify(formValues)
-		);
+		localStorage.setItem('locationLocalStorage', JSON.stringify(formValues));
 	});
 
 	const navigate = useNavigate();
@@ -91,7 +86,7 @@ const Header = () => {
 	useEffect(() => {
 		async function getNotifications() {
 			try {
-				const { data } = await api.get("/notify-by-user", {
+				const { data } = await api.get('/notify-by-user', {
 					params: {
 						userId: -1, //user.userId,
 					},
@@ -116,24 +111,21 @@ const Header = () => {
 			<Sidebar sidebar={sidebar} showSidebar={showSidebar} />
 			<HeaderContainer>
 				<ContainerLogo>
-					<Link to="/" className="logo">
+					<Link to='/' className='logo'>
 						<img
-							src={
-								process.env.PUBLIC_URL +
-								"/assets/img/home_logo_branco.png"
-							}
-							alt="Home"
+							src={process.env.PUBLIC_URL + '/assets/img/home_logo_branco.png'}
+							alt='Home'
 						/>
 					</Link>
 					<div
-						style={{ color: "white", cursor: "pointer" }}
+						style={{ color: 'white', cursor: 'pointer' }}
 						onClick={() => /*setFormValues({ undefined })*/ {
-							localStorage.removeItem("locationLocalStorage");
+							localStorage.removeItem('locationLocalStorage');
 							setFormValues({
 								state: undefined,
 								city: undefined,
 							});
-							navigate("/location");
+							navigate('/location');
 						}}
 					>
 						<span>
@@ -143,10 +135,13 @@ const Header = () => {
 				</ContainerLogo>
 
 				<ContainerCenter>
-					<img src = {process.env.PUBLIC_URL + "/assets/img/UnespSCity_Logo.png"} alt = "Logo"/>
+					<img
+						src={process.env.PUBLIC_URL + '/assets/img/UnespSCity_Logo.png'}
+						alt='Logo'
+					/>
 				</ContainerCenter>
 
-				{windowDimenion.winWidth >= 958 ? (
+				{windowDimension.winWidth >= 958 ? (
 					<ContainerActions>
 						<div>
 							<NotificationContainer>
@@ -167,8 +162,8 @@ const Header = () => {
 					<ContainerActions>
 						<div></div>
 						<FaIcons.FaBars
-							style={{ cursor: "pointer" }}
-							color={"white"}
+							style={{ cursor: 'pointer' }}
+							color={'white'}
 							size={23}
 							onClick={() => showSidebar()}
 						/>
@@ -184,12 +179,12 @@ const UserClickHandle = (props) => {
 
 	return (
 		<>
-			<a href="#" onClick={() => setOpen(!open)}>
+			<a href='#' onClick={() => setOpen(!open)}>
 				<BiUser
-					style={{ cursor: "pointer" }}
-					color={"white"}
+					style={{ cursor: 'pointer' }}
+					color={'white'}
 					size={30}
-					className="glow-effect"
+					className='glow-effect'
 				/>
 			</a>
 
@@ -201,12 +196,12 @@ const UserClickHandle = (props) => {
 const Notifications = () => {
 	const navigate = useNavigate();
 	return (
-		<div href="#" onClick={() => navigate("/notifications")}>
+		<div href='#' onClick={() => navigate('/notifications')}>
 			<IoIosNotificationsOutline
-				style={{ cursor: "pointer" }}
-				color={"white"}
+				style={{ cursor: 'pointer' }}
+				color={'white'}
 				size={30}
-				className="glow-effect"
+				className='glow-effect'
 			/>
 		</div>
 	);
@@ -215,12 +210,12 @@ const Notifications = () => {
 const Historic = () => {
 	const navigate = useNavigate();
 	return (
-		<div href="#" onClick={() => navigate("/historico")}>
+		<div href='#' onClick={() => navigate('/historico')}>
 			<IoIosFolder
-				style={{ cursor: "pointer" }}
-				color={"white"}
+				style={{ cursor: 'pointer' }}
+				color={'white'}
 				size={25}
-				className="glow-effect"
+				className='glow-effect'
 			/>
 		</div>
 	);
